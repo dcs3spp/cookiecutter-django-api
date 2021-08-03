@@ -36,9 +36,9 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'local.api.apps.LocalApiConfig',
-    'local.authentication.apps.AuthConfig',
-    'local.pages.apps.PagesConfig',
+    '{{ cookiecutter.project_name }}.local.api.apps.LocalApiConfig',
+    '{{ cookiecutter.project_name }}.local.authentication.apps.AuthConfig',
+    '{{ cookiecutter.project_name }}.local.pages.apps.PagesConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
