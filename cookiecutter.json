@@ -1,0 +1,14 @@
+{
+  "description": "desc",
+  "email": "me@example.com",
+  "full_name": "Your Name",
+  "license": "MIT",
+  "project_name": "default_project",
+  "python_version": "3.8",
+   "_copy_without_render": [
+        "*.html",
+        "*.js",
+        "*.map",
+        "*.css"
+   ]
+}

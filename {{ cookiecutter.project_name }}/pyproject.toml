@@ -1,0 +1,32 @@
+[tool.poetry]
+name = "{{ cookiecutter.project_name }}"
+version = "0.1.0"
+description = ""
+authors = ["{{ cookiecutter.full_name }} <{{ cookiecutter.email }}>"]
+
+[tool.poetry.dependencies]
+python = "^{{ cookiecutter.python_version }}"
+Django = "^3.2.5"
+djangorestframework = "^3.12.4"
+djangorestframework-jsonapi = "^4.2.1"
+django-filter = "^2.4.0"
+uvicorn = "^0.14.0"
+coreapi = "^2.3.3"
+django-debug-toolbar = "^3.2.1"
+gunicorn = "^20.1.0"
+
+[tool.poetry.dev-dependencies]
+pytest = "^6.2.4"
+pytest-django = "^4.4.0"
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "{{ cookiecutter.project_name }}.main.settings"
+minversion = "6.0"
+addopts = "-ra -q"
+testpaths = [
+    "tests",
+]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
