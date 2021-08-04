@@ -114,5 +114,7 @@ COPY --chown=pyuser:pyuser ./docker/docker-entrypoint.sh ./
 
 USER pyuser
 
+RUN mkdir /opt/venv/lib/python3.8/site-packages/{{ cookiecutter.project_name }}/staticfiles
+
 CMD ["./docker-entrypoint.sh"]
 

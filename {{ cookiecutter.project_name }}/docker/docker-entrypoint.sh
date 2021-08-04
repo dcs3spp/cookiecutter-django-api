@@ -8,6 +8,12 @@ django-admin makemigrations
 echo "Running migrations..."
 django-admin migrate
 
+id
+echo "Making staticfiles..."
+mkdir -p /opt/venv/lib/python3.8/site-packages/default_project/staticfiles
+echo "Displaying permissions from staticfiles"
+ls -l /opt/venv/lib/python3.8/site-packages/default_project
+
 echo "Collecting static files..."
 django-admin collectstatic --noinput
 

@@ -6,19 +6,29 @@ services:
     build:
       context: .
       dockerfile: docker/Dockerfile
+    environment:
+      - DJANGO_DEBUG=${DJANGO_DEBUG}
+      - DJANGO_PORT=${DJANGO_PORT}
+      - DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY}
+      - DJANGO_SUPERUSER_EMAIL=${DJANGO_SUPERUSER_EMAIL}
+      - DJANGO_SUPERUSER_PASSWORD=${DJANGO_SUPERUSER_PASSWORD}
+      - DJANGO_SEUPRUSER_USERNAME=${DJANGO_SUPERUSER_USERNAME}
     volumes:
-      - ./web/static:/opt/venv/lib/python3.8/site-packages/{{ cookiecutter.project_name }}/staticfiles
+      - static-files:/opt/venv/lib/python3.8/site-packages/{{ cookiecutter.project_name }}/staticfiles:rw
     ports:
-      - 5000:5000
+      - 127.0.0.1:${DJANGO_PORT}:${DJANGO_PORT}
 
   nginx:
     container_name: nginx
     image: nginx:alpine
     volumes:
       - ./docker/nginx:/etc/nginx/conf.d
-      - ./web/static:/static
+      - static-files:/static
     depends_on:
       - web
     ports:
       - 8000:80
+
+volumes:
+  static-files:
 
