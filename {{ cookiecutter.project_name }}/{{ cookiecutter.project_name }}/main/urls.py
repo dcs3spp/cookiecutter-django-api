@@ -20,9 +20,9 @@ from django.urls import include, path
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("api/", include("local.api.urls")),
-    path("", include("local.authentication.urls")),
-    path("", include("local.pages.urls")),
+    path("api/", include("{{ cookiecutter.project_name }}.local.api.urls")),
+    path("", include("{{ cookiecutter.project_name }}.local.authentication.urls")),
+    path("", include("{{ cookiecutter.project_name }}.local.pages.urls")),
 ]
 
 if settings.DEBUG:

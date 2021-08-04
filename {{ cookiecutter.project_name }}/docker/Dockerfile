@@ -79,20 +79,34 @@ RUN poetry build && /opt/venv/bin/pip install dist/*.whl
 # -------------------------------------------------------------------------------------------
 
 ##
-# run:    Copy virtualenv from compile stage, to reduce final image size
-#         Run the docker-entrypoint.sh script
+# run:          Copy virtualenv from compile stage, to reduce final image size
+#               Run the docker-entrypoint.sh script as pyuser
+#
+# build args:   DJANGO_PORT The port django will listen on
+#               DJANGO_SECRET_KEY The secret key used for django server
+#               GIT_HASH The git hash the docker image is derived from
 ##
 
 FROM base as run
 
-# Include git hash for traceability of image
+ARG DJANGO_PORT
 ARG GIT_HASH
+
+ENV DJANGO_ALLOWED_HOSTS=${DJANGO_ALLOWED_HOSTS:-""}
+ENV DJANGO_DEBUG=${DJANGO_DEBUG:-False}
+ENV DJANGO_PORT=${DJANGO_PORT:-5000}
+ENV DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY:-secret}
+ENV DJANGO_SETTINGS_MODULE={{ cookiecutter.project_name }}.main.settings
+ENV DJANGO_SUPERUSER_EMAIL=${DJANGO_SUPERUSER_EMAIL:-"myname@example.com"}
+ENV DJANGO_SUPERUSER_PASSWORD=${DJANGO_SUPERUSER_PASSWORD:-"Pa55w0rd"}
+ENV DJANGO_SUPERUSER_USERNAME=${DJANGO_SUPERUSER_USERNAME:-"admin"}
+
 ENV GIT_HASH=${GIT_HASH:-dev}
 
 # install virtualenv from compiled image
 COPY --chown=pyuser:pyuser --from=compile /opt/venv /opt/venv
 
-# set path for virtualenv and set env var so virtualenv is activated
+# set path for virtualenv and VIRTUAL_ENV toactivate virtualenv
 ENV VIRTUAL_ENV="/opt/venv"
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 

@@ -28,10 +28,15 @@ if SECRET_KEY is None:
     sys.exit(1)
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get("DJANGO_DEBUG",  False)
 
-ALLOWED_HOSTS = []
-
+# Django 3.1+ if ALLOWED_HOSTS is empty and DEBUG=True then subdomains
+# of localhost are allowed. Using docker, this will no longer be empty
+# by default. So explictly set the localhost subdomain by default and
+# add from environment variable.
+hosts = os.environ.get("DJANGO_ALLOWED_HOSTS", "")
+ALLOWED_HOSTS = [ '.localhost', '127.0.0.1', '[::1]' ]
+ALLOWED_HOSTS += hosts.strip().split()
 
 # Application definition
 
@@ -89,7 +94,7 @@ if DEBUG:
         'INTERCEPT_REDIRECTS': False,
     }
 
-ROOT_URLCONF = 'main.urls'
+ROOT_URLCONF = '{{ cookiecutter.project_name }}.main.urls'
 LOGIN_REDIRECT_URL = "home"   # Route defined in pages/urls.py
 LOGOUT_REDIRECT_URL = "home"  # Route defined in pages/urls.py
 TEMPLATE_DIR = os.path.join(CORE_DIR, "main/templates")  # ROOT dir for templates
@@ -110,7 +115,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'main.wsgi.application'
+WSGI_APPLICATION = '{{ cookiecutter.project_name }}.main.wsgi.application'
 
 
 # Database

@@ -111,3 +111,7 @@ venv.bak/
 # macOS
 **/.DS_Store
 
+# web static files
+web/
+web/static/
+

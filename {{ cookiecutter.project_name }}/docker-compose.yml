@@ -1,0 +1,24 @@
+version: '3.8'
+services:
+  web:
+    container_name: web
+    image: myimage
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    volumes:
+      - ./web/static:/opt/venv/lib/python3.8/site-packages/{{ cookiecutter.project_name }}/staticfiles
+    ports:
+      - 5000:5000
+
+  nginx:
+    container_name: nginx
+    image: nginx:alpine
+    volumes:
+      - ./docker/nginx:/etc/nginx/conf.d
+      - ./web/static:/static
+    depends_on:
+      - web
+    ports:
+      - 8000:80
+

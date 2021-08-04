@@ -7,5 +7,5 @@ from django.apps import AppConfig
 
 
 class AuthConfig(AppConfig):
-    name = 'local.authentication'
+    name = "{{ cookiecutter.project_name }}.local.authentication"
     verbose_name = ("Authentication")
