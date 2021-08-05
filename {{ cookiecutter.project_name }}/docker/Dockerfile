@@ -66,7 +66,7 @@ ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 # install dependencies:
 COPY pyproject.toml poetry.lock ./
 RUN /opt/venv/bin/pip install --upgrade pip \
-  && poetry install $(if [ "$DEPLY_ENV" = 'production' ]; then echo '--no-dev'; fi) \
+  && poetry install $(if [ "$DEPLOY_ENV" = 'production' ]; then echo '--no-dev'; fi) \
     --no-ansi \
     --no-interaction
 
@@ -81,20 +81,33 @@ RUN poetry build && /opt/venv/bin/pip install dist/*.whl
 ##
 # run:          Copy virtualenv from compile stage, to reduce final image size
 #               Run the docker-entrypoint.sh script as pyuser
+# 
+#               This performs the following actions when the container starts:
+#               - Make and run database migrations
+#               - Collect static files
+#               - Create the superuser
+#               - Run wsgi app using gunicorn
+#               
+# port:         5000
 #
-# build args:   DJANGO_PORT The port django will listen on
-#               DJANGO_SECRET_KEY The secret key used for django server
-#               GIT_HASH The git hash the docker image is derived from
+# build args:   
+#
+#   GIT_HASH                    Git hash the docker image is derived from
+#
+# environment:
+#
+#   DJANGO_DEBUG                True if django debugging is enabled
+#   DJANGO_SECRET_KEY           The secret key used for django server, defaults to secret
+#   DJANGO_SUPERUSER_EMAIL      Django superuser email, default=myname@example.com
+#   DJANGO_SUPERUSER_PASSWORD   Django superuser passwd, default=Pa55w0rd
+#   DJANGO_SUPERUSER_USERNAME   Django superuser username, default=admin
 ##
 
 FROM base as run
 
-ARG DJANGO_PORT
 ARG GIT_HASH
 
-ENV DJANGO_ALLOWED_HOSTS=${DJANGO_ALLOWED_HOSTS:-""}
 ENV DJANGO_DEBUG=${DJANGO_DEBUG:-False}
-ENV DJANGO_PORT=${DJANGO_PORT:-5000}
 ENV DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY:-secret}
 ENV DJANGO_SETTINGS_MODULE={{ cookiecutter.project_name }}.main.settings
 ENV DJANGO_SUPERUSER_EMAIL=${DJANGO_SUPERUSER_EMAIL:-"myname@example.com"}
@@ -116,5 +129,7 @@ USER pyuser
 
 RUN mkdir /opt/venv/lib/python3.8/site-packages/{{ cookiecutter.project_name }}/staticfiles
 
-CMD ["./docker-entrypoint.sh"]
+EXPOSE 5000
+
+ENTRYPOINT ["./docker-entrypoint.sh"]
 

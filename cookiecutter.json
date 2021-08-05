@@ -1,10 +1,20 @@
 {
   "description": "desc",
+  "docker_image": "myimage",
   "email": "me@example.com",
   "full_name": "Your Name",
-  "license": "MIT",
+  "license": [
+    "MIT",
+    "BSD",
+    "GPLv3",
+    "Apache Software License 2.0",
+    "Not open source"
+  ], 
   "project_name": "default_project",
-  "python_version": "3.8",
+  "python_version": [
+    "3.8",
+    "3.9"
+  ],
    "_copy_without_render": [
         "*.html",
         "*.js",

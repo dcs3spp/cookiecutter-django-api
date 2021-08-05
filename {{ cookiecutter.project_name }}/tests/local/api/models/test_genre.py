@@ -1,5 +1,5 @@
 import pytest
-from local.api.models import Genre
+from {{ cookiecutter.project_name }}.local.api.models import Genre
 
 
 @pytest.mark.django_db

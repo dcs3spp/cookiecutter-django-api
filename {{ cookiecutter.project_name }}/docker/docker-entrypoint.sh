@@ -8,11 +8,8 @@ django-admin makemigrations
 echo "Running migrations..."
 django-admin migrate
 
-id
 echo "Making staticfiles..."
 mkdir -p /opt/venv/lib/python3.8/site-packages/default_project/staticfiles
-echo "Displaying permissions from staticfiles"
-ls -l /opt/venv/lib/python3.8/site-packages/default_project
 
 echo "Collecting static files..."
 django-admin collectstatic --noinput
@@ -34,7 +31,13 @@ then
 fi
 
 exec gunicorn \
-  --bind 0.0.0.0:${iDJANGO_PORT:-"5000"} \
+  --bind 0.0.0.0:5000 \
   --forwarded-allow-ips='*' \
+  --worker-tmp-dir /dev/shm \
+  --workers=4 \
+  --threads=1 \
+  --worker-class=gthread \
   {{ cookiecutter.project_name }}.main.wsgi:application
+
+exec "$@"
 
