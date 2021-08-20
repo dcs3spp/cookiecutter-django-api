@@ -8,12 +8,14 @@
 # dependency conflicts with poetry.
 #
 
+ARG PYTHON_VERSION=3.8
+
 # ---------------------------------------------------------------------------------------
 
 ##
 # base: Configure python environment and set workdir
 ##
-FROM python:3.8-slim as base
+FROM python:${PYTHON_VERSION}-slim as base
 
 ENV PYTHONDONTWRITEBYTECODE=1 \
   PYTHONFAULTHANDLER=1 \

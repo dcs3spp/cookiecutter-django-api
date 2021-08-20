@@ -5,8 +5,11 @@ services:
     image: {{ cookiecutter.docker_image }}:${DOCKER_IMAGE_VERSION:-latest}
     init: true
     build:
+      args:
+        PYTHON_VERSION: ${PYTHON_VERSION}
       context: .
       dockerfile: docker/Dockerfile
+
     environment:
       - DJANGO_DEBUG=${DJANGO_DEBUG}
       - DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY}
