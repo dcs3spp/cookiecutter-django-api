@@ -8,9 +8,6 @@ django-admin makemigrations
 echo "Running migrations..."
 django-admin migrate
 
-echo "Making staticfiles..."
-mkdir -p "/opt/venv/lib/python{{ cookiecutter.python_version }}/site-packages/{{ cookiecutter.project_name }}/staticfiles"
-
 echo "Collecting static files..."
 django-admin collectstatic --noinput
 

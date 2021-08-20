@@ -127,6 +127,8 @@ COPY --chown=pyuser:pyuser ./docker/docker-entrypoint.sh ./
 
 USER pyuser
 
+RUN mkdir -p "/opt/venv/lib/python{{ cookiecutter.python_version }}/site-packages/{{ cookiecutter.project_name }}/staticfiles"
+
 EXPOSE 5000
 
 ENTRYPOINT ["./docker-entrypoint.sh"]
