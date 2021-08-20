@@ -1,4 +1,5 @@
 import pytest
+
 from {{cookiecutter.project_name}}.local.api.models import Genre
 
 
