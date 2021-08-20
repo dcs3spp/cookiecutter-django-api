@@ -1,5 +1,5 @@
 import pytest
-from {{ cookiecutter.project_name }}.local.api.models import Genre
+from {{cookiecutter.project_name}}.local.api.models import Genre
 
 
 @pytest.mark.django_db
@@ -10,6 +10,7 @@ def test_genre_name_max_length_set():
 
     assert max_length == 200
 
+
 @pytest.mark.django_db
 def test_genre_name_str():
     genre = Genre.objects.create(name="thriller")
@@ -17,5 +18,3 @@ def test_genre_name_str():
     s = genre.__str__()
 
     assert s == "thriller"
-
-

@@ -19,6 +19,7 @@
         "*.html",
         "*.js",
         "*.map",
-        "*.css"
+        "*.css",
+        ".github"
    ]
 }

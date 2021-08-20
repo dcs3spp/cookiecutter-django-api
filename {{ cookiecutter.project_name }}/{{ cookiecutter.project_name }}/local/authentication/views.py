@@ -3,11 +3,8 @@
 Copyright (c) 2019 - present AppSeed.us
 """
 
-from django.shortcuts import render
-
-# Create your views here.
-from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
+from django.shortcuts import redirect, render
 
 from .forms import LoginForm, SignUpForm
 
@@ -27,15 +24,16 @@ def login_view(request):
                 login(request, user)
                 return redirect("/")
             else:
-                msg = 'Invalid credentials'
+                msg = "Invalid credentials"
         else:
-            msg = 'Error validating the form'
+            msg = "Error validating the form"
 
-    return render(request, "accounts/login.html", {"form": form, "msg" : msg})
+    return render(request, "accounts/login.html", {"form": form, "msg": msg})
+
 
 def register_user(request):
 
-    msg     = None
+    msg = None
     success = False
 
     if request.method == "POST":
@@ -46,13 +44,17 @@ def register_user(request):
             raw_password = form.cleaned_data.get("password1")
             _ = authenticate(username=username, password=raw_password)
 
-            msg     = 'User created - please <a href="/login">login</a>.'
+            msg = 'User created - please <a href="/login">login</a>.'
             success = True
-            #return redirect("/login/")
+            # return redirect("/login/")
 
         else:
-            msg = 'Form is not valid'
+            msg = "Form is not valid"
     else:
         form = SignUpForm()
 
-    return render(request, "accounts/register.html", {"form": form, "msg" : msg, "success" : success })
+    return render(
+        request,
+        "accounts/register.html",
+        {"form": form, "msg": msg, "success": success},
+    )

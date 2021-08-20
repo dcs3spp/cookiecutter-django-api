@@ -4,10 +4,9 @@ from rest_framework import routers
 
 from .views import AuthorViewSet, GenreViewSet
 
-
 api_router = routers.SimpleRouter()
-api_router.register(r'authors', AuthorViewSet, basename='author')
-api_router.register(r'genres', GenreViewSet, basename='genre')
+api_router.register(r"authors", AuthorViewSet, basename="author")
+api_router.register(r"genres", GenreViewSet, basename="genre")
 
 urlpatterns = [
     path(r"", include(api_router.urls)),
@@ -18,4 +17,3 @@ urlpatterns = [
     #    extra_context={'schema_url': 'openapi-schema', 'title': 'LibraryAPI'}
     # ), name='swagger-ui'),
 ]
-
