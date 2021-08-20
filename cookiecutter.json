@@ -1,6 +1,7 @@
 {
   "description": "desc",
-  "docker_image": "myimage",
+  "project_name": "default_project",
+  "docker_image": "{{ cookiecutter.project_name }}",
   "email": "me@example.com",
   "full_name": "Your Name",
   "license": [
@@ -10,12 +11,11 @@
     "Apache Software License 2.0",
     "Not open source"
   ], 
-  "project_name": "default_project",
   "python_version": [
     "3.8",
     "3.9"
   ],
-   "_copy_without_render": [
+  "_copy_without_render": [
         "*.html",
         "*.js",
         "*.map",
