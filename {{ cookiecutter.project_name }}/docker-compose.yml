@@ -2,7 +2,7 @@ version: '3.8'
 services:
   web:
     container_name: web
-    image: {{ cookiecutter.docker_image }}
+    image: {{ cookiecutter.docker_image }}:${DOCKER_IMAGE_VERSION:-latest}
     init: true
     build:
       context: .

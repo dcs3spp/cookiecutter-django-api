@@ -1,7 +1,5 @@
-## Change Log
+# Change Log
 
-Unreleased
------
+This file documents release changes.
 
-* initial
-
+## [Unreleased]

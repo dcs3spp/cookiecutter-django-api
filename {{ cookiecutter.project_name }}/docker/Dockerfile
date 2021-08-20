@@ -1,5 +1,3 @@
-# https://stackoverflow.com/questions/53835198/integrating-python-poetry-with-docker
-
 #
 # Use poetry to build wheel and install dependencies into a virtual environment.
 # This will store the dependencies during compile docker stage.
@@ -109,7 +107,7 @@ ARG GIT_HASH
 
 ENV DJANGO_DEBUG=${DJANGO_DEBUG:-False}
 ENV DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY:-secret}
-ENV DJANGO_SETTINGS_MODULE={{ cookiecutter.project_name }}.main.settings
+ENV DJANGO_SETTINGS_MODULE=django_test.main.settings
 ENV DJANGO_SUPERUSER_EMAIL=${DJANGO_SUPERUSER_EMAIL:-"myname@example.com"}
 ENV DJANGO_SUPERUSER_PASSWORD=${DJANGO_SUPERUSER_PASSWORD:-"Pa55w0rd"}
 ENV DJANGO_SUPERUSER_USERNAME=${DJANGO_SUPERUSER_USERNAME:-"admin"}
@@ -126,8 +124,6 @@ ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 COPY --chown=pyuser:pyuser ./docker/docker-entrypoint.sh ./
 
 USER pyuser
-
-RUN mkdir /opt/venv/lib/python3.8/site-packages/{{ cookiecutter.project_name }}/staticfiles
 
 EXPOSE 5000
 

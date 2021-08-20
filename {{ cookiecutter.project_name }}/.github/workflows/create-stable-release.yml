@@ -1,0 +1,60 @@
+##
+# bump-version.yml
+# Input semantic version for release and update the following source artefacts:
+# - CHANGELOG.md: Update [unreleased] section with semantic version number
+# - docker-compose.yaml: Update image with semantic version number
+# - pyproject.toml: Update version number in build configuration
+# - python package: Update __init__.py with semantic version string
+#
+# The files are committed onto main branch and a version tag is created as
+# releases/x.x.x
+##
+name: Deploy_Stable_Release
+on:
+  workflow_dispatch:
+    inputs:
+      versionName:
+        description: 'Version number  (eg 1.0.0)'
+        required: true
+jobs:
+  deploy-stable-release:
+    runs-on: ubuntu-20.04
+    strategy:
+      matrix:
+        python-version: [ 3.9 ]
+        poetry-version: [ 1.1.7 ]
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+      - name: Install bumpversion
+        run: pip3 install bumpversion
+      - name: Configure git user and email required for bumpversion
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email noreply@github.com
+      - name: Bump semantic version in pyproject and docker-compose files
+        id: bump-version
+        run: bumpversion --verbose --new-version ${{ github.event.inputs.versionName }} patch
+      - name: Update Changelog
+        uses: thomaseizinger/keep-a-changelog-new-release@1.2.1
+        with:
+          version: ${{ github.event.inputs.versionName }}
+      - name: Setup Python environment
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install poetry build tool
+        uses: abatilo/actions-poetry@v2.0.0
+        with:
+          poetry-version: ${{ matrix.poetry-version }}
+      - name: Build source distribution
+        run: poetry build --format sdist
+      - name: Release
+        uses: ncipollo/release-action@v1
+        with:
+          artifactErrorsFailBuild: true
+          artifacts: "dist/*"
+          bodyFile: "CHANGELOG.md"
+          name: Release ${{ steps.version.outputs.tag }}
+          tag: releases/${{ github.event.inputs.versionName }}
+          token: ${{ secrets.GITHUB_TOKEN }}
