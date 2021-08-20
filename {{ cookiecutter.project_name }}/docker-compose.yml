@@ -17,7 +17,7 @@ services:
       - DJANGO_SUPERUSER_PASSWORD=${DJANGO_SUPERUSER_PASSWORD}
       - DJANGO_SEUPRUSER_USERNAME=${DJANGO_SUPERUSER_USERNAME}
     volumes:
-      - static-files:/opt/venv/lib/python3.8/site-packages/{{ cookiecutter.project_name }}/staticfiles:rw
+      - static-files:/opt/venv/lib/python${PYTHON_VERSION}/site-packages/{{ cookiecutter.project_name }}/staticfiles:rw
     ports:
       - 127.0.0.1:${DJANGO_EXT_PORT}:5000
 
